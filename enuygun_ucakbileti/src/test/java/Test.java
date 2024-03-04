@@ -1,8 +1,10 @@
 import Pages.HomePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
 public class Test {
@@ -37,11 +39,11 @@ public class Test {
 
     }
 
-//    @AfterTest
-//    public void tearDown() {
-//        // WebDriver'ı kapat
-//        driver.quit();
-//    }
+    @AfterTest
+    public void tearDown() {
+        // WebDriver'ı kapat
+        driver.quit();
+    }
 
 }
 
