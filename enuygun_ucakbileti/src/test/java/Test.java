@@ -1,18 +1,17 @@
 import Pages.HomePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 public class Test {
 
     private WebDriver driver;
     private HomePage homePage;
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -23,25 +22,27 @@ public class Test {
     @org.testng.annotations.Test
     public void case1() throws InterruptedException {
         homePage.goToEnuygunHomepage();
-        homePage.fromWhereToWhere();
-        homePage.datePicker();
+        homePage.fromWhereToWhere("İstanbul", "Ankara");
+        homePage.datePicker("20", "21");
         homePage.searchButton();
-        homePage.chooseFilter();
+        homePage.chooseDepartureTimeFilter();
         homePage.checkFilter();
     }
 
     @org.testng.annotations.Test
     public void case2() throws InterruptedException {
         homePage.goToEnuygunHomepage();
-        homePage.fromWhereToWhere();
-        homePage.datePicker();
+        homePage.fromWhereToWhere("İstanbul", "Ankara");
+        homePage.datePicker("24", "25");
         homePage.searchButton();
-
+        homePage.chooseDepartureTimeFilter();
+        homePage.checkFilter();
+        homePage.chooseAirlineFilter();
+        homePage.checkPriceThy();
     }
 
-    @AfterTest
-    public void tearDown() {
-        // WebDriver'ı kapat
+    @AfterMethod
+    public void afterMethod() {
         driver.quit();
     }
 
