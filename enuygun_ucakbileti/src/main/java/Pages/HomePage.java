@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -16,6 +18,7 @@ public class HomePage {
     private WebDriver driver;
 
     public HomePage(WebDriver driver) {
+
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -73,6 +76,7 @@ public class HomePage {
 
 
     public void goToEnuygunHomepage() {
+
         driver.get("https://www.enuygun.com/");
     }
 
@@ -90,16 +94,17 @@ public class HomePage {
     }
 
     public void datePicker(String gidisTarihi, String dönüsTarihi) throws InterruptedException {
+
         departureDate.click();
         WebElement departureDatePicker = driver.findElement(By.xpath("(//*[@class='sc-gdfaqJ fjsa-dD'])[1] //*[@class='sc-iZzKWI dlKEMh'] //*[@class='sc-cQCQeq hWjVug'] //*[@data-day='" + gidisTarihi + "']"));
         departureDatePicker.click();
         returnDate.click();
         WebElement returnDatePicker = driver.findElement(By.xpath("(//*[@class='sc-gdfaqJ fjsa-dD'])[1] //*[@class='sc-iZzKWI dlKEMh'] //*[@class='sc-cQCQeq hWjVug'] //*[@data-day='" + dönüsTarihi + "']"));
         returnDatePicker.click();
-
     }
 
     public void searchButton() throws InterruptedException {
+
         searchButton.click();
         Thread.sleep(5000);
         Assert.assertTrue(addFavoriteButton.isDisplayed(), "Sayfa yüklenirken bir hata oluştu!!!");
@@ -107,6 +112,7 @@ public class HomePage {
     }
 
     public void chooseDepartureTimeFilter() throws InterruptedException {
+
         Actions sliderAction = new Actions(driver);
         departureTimeFilter.click();
         int xOffsetStart = 100;
@@ -118,6 +124,7 @@ public class HomePage {
     }
 
     public void checkFilter() {
+
         boolean isWithinRange = true;
         for (WebElement departureTime : departureTimes) {
             String timeString = departureTime.getText();
@@ -127,11 +134,8 @@ public class HomePage {
                 isWithinRange = false;
                 break;
             }
-
             System.out.println("Kalkış saatleri: " + hour);
-
         }
-
 
         if (isWithinRange) {
             System.out.println("Tüm uçuşların kalkış saatleri 10:00 ile 18:00 arasında.");
@@ -141,6 +145,7 @@ public class HomePage {
     }
 
     public void chooseAirlineFilter() throws InterruptedException {
+
         openAirlineFilter.click();
         Thread.sleep(2000);
         chooseAirlineFilter.click();
@@ -149,5 +154,25 @@ public class HomePage {
 
     public void checkPriceThy() {
 
+        List <Double> prices = new ArrayList<>();
+
+        for (WebElement element : priceElements){
+            String priceText = element.getText().replace(" TL", "").replace(",",".");
+            double price = Double.parseDouble(priceText);
+            prices.add(price);
+        }
+
+        System.out.println(prices);
+
+        List <Double> sortedPrices = new ArrayList<>(prices);
+        Collections.sort(sortedPrices);
+
+        boolean isSorted = prices.equals(sortedPrices);
+
+        if (isSorted){
+            System.out.println("Fiyatlar küçükten büyüğe sıralanıyor.");
+        }else{
+            System.out.println("Fiyat sıralaması hatalı");
+        }
     }
 }
